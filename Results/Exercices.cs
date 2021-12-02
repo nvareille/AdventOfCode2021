@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using AdventOfCode2021;
+using AdventOfCode2021.Enums;
 using Microsoft.VisualStudio.TestPlatform.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -11,7 +12,7 @@ namespace Results
         public static string Session = "S3cr3t";
 
         [TestMethod]
-        public void Exercice1_A()
+        public void Exercice01_A()
         {
             IEnumerable<int> input = InputGetter.GetInputAsIntArray(Session, "2021/day/1/input");
             int nbr = SonarSweep.GetDepthIncrease(input);
@@ -20,10 +21,29 @@ namespace Results
         }
 
         [TestMethod]
-        public void Exercice1_B()
+        public void Exercice01_B()
         {
             IEnumerable<int> input = InputGetter.GetInputAsIntArray(Session, "2021/day/1/input");
             int nbr = SonarSweep.GetDepthIncreaseWindow(input, 3);
+
+            ConsoleOutput.Instance.WriteLine($"Result is {nbr}", OutputLevel.Information);
+        }
+
+        [TestMethod]
+        public void Exercice02_A()
+        {
+            IEnumerable<(Direction, int)> input = InputGetter.GetInputAsEnumTuples<Direction>(Session, "2021/day/2/input");
+            int nbr = SubmarineGPS.ComputeDistance(input);
+
+            ConsoleOutput.Instance.WriteLine($"Result is {nbr}", OutputLevel.Information);
+        }
+
+
+        [TestMethod]
+        public void Exercice02_B()
+        {
+            IEnumerable<(Direction, int)> input = InputGetter.GetInputAsEnumTuples<Direction>(Session, "2021/day/2/input");
+            int nbr = SubmarineGPS.ComputeDistanceAim(input);
 
             ConsoleOutput.Instance.WriteLine($"Result is {nbr}", OutputLevel.Information);
         }
