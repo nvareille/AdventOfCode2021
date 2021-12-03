@@ -20,7 +20,7 @@ namespace AdventOfCode2021
             {
                 BaseAddress = baseAdress
             };
-            
+
             cookieContainer.Add(baseAdress, new Cookie("session", session));
 
             return (client);
@@ -40,11 +40,21 @@ namespace AdventOfCode2021
         {
             HttpClient client = GenerateClient(session);
             string input = client.GetAsync(url).Result.Content.ReadAsStringAsync().Result;
-            
+
             return (input.Split("\n")
                 .Where(i => !string.IsNullOrWhiteSpace(i))
                 .Select(i => i.Split(" "))
-                .Select(i => ((T)Enum.Parse(typeof(T), i[0], true), int.Parse(i[1]))));
+                .Select(i => ((T) Enum.Parse(typeof(T), i[0], true), int.Parse(i[1]))));
+        }
+
+        public static IEnumerable<char[]> GetInputAsCharArrayEnumerable(string session, string url)
+        {
+            HttpClient client = GenerateClient(session);
+            string input = client.GetAsync(url).Result.Content.ReadAsStringAsync().Result;
+
+            return (input.Split("\n")
+                .Where(i => !string.IsNullOrWhiteSpace(i))
+                .Select(i => i.ToCharArray()));
         }
     }
 }

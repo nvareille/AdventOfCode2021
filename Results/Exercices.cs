@@ -47,5 +47,24 @@ namespace Results
 
             ConsoleOutput.Instance.WriteLine($"Result is {nbr}", OutputLevel.Information);
         }
+
+        [TestMethod]
+        public void Exercice03_A()
+        {
+            IEnumerable<char[]> input = InputGetter.GetInputAsCharArrayEnumerable(Session, "2021/day/3/input");
+            long nbr = PowerConsumptionUnit.ComputeConsumption(input);
+
+            ConsoleOutput.Instance.WriteLine($"Result is {nbr}", OutputLevel.Information);
+        }
+
+
+        [TestMethod]
+        public void Exercice03_B()
+        {
+            IEnumerable<char[]> input = InputGetter.GetInputAsCharArrayEnumerable(Session, "2021/day/3/input");
+            ulong nbr = PowerConsumptionUnit.ComputeAirValues(input);
+
+            ConsoleOutput.Instance.WriteLine($"Result is {nbr}", OutputLevel.Information);
+        }
     }
 }
