@@ -6,13 +6,13 @@ namespace AdventOfCode2021
 {
     public class PowerConsumptionUnit
     {
-        public static long ComputeConsumption(IEnumerable<char[]> input)
+        public static int ComputeConsumption(IEnumerable<char[]> input)
         {
             int count = 0;
             int max = input.First().Length;
 
-            long gamma = 0;
-            long epsilon = 0;
+            int gamma = 0;
+            int epsilon = 0;
             
             while (count < max)
             {
@@ -54,7 +54,7 @@ namespace AdventOfCode2021
             return (input);
         }
 
-        public static ulong ComputeAirValues(IEnumerable<char[]> input)
+        public static int ComputeAirValues(IEnumerable<char[]> input)
         {
             int count = 0;
             int max = input.First().Length;
@@ -72,8 +72,8 @@ namespace AdventOfCode2021
             string str = new string(o2.First());
             string str2 = new string(co2.First());
 
-            ulong l1 = Convert.ToUInt64(str, 2);
-            ulong l2 = Convert.ToUInt64(str2, 2);
+            int l1 = Convert.ToInt32(str, 2);
+            int l2 = Convert.ToInt32(str2, 2);
 
             return (l1 * l2);
         }

@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using AdventOfCode2021;
 using AdventOfCode2021.Enums;
 using Microsoft.VisualStudio.TestPlatform.Utilities;
@@ -18,6 +20,7 @@ namespace Results
             int nbr = SonarSweep.GetDepthIncrease(input);
 
             ConsoleOutput.Instance.WriteLine($"Result is {nbr}", OutputLevel.Information);
+            Assert.AreEqual(1446, nbr);
         }
 
         [TestMethod]
@@ -27,6 +30,7 @@ namespace Results
             int nbr = SonarSweep.GetDepthIncreaseWindow(input, 3);
 
             ConsoleOutput.Instance.WriteLine($"Result is {nbr}", OutputLevel.Information);
+            Assert.AreEqual(1486, nbr);
         }
 
         [TestMethod]
@@ -36,9 +40,9 @@ namespace Results
             int nbr = SubmarineGPS.ComputeDistance(input);
 
             ConsoleOutput.Instance.WriteLine($"Result is {nbr}", OutputLevel.Information);
+            Assert.AreEqual(1698735, nbr);
         }
-
-
+        
         [TestMethod]
         public void Exercice02_B()
         {
@@ -46,6 +50,7 @@ namespace Results
             int nbr = SubmarineGPS.ComputeDistanceAim(input);
 
             ConsoleOutput.Instance.WriteLine($"Result is {nbr}", OutputLevel.Information);
+            Assert.AreEqual(1594785890, nbr);
         }
 
         [TestMethod]
@@ -55,6 +60,7 @@ namespace Results
             long nbr = PowerConsumptionUnit.ComputeConsumption(input);
 
             ConsoleOutput.Instance.WriteLine($"Result is {nbr}", OutputLevel.Information);
+            Assert.AreEqual(3813416, nbr);
         }
 
 
@@ -62,9 +68,35 @@ namespace Results
         public void Exercice03_B()
         {
             IEnumerable<char[]> input = InputGetter.GetInputAsCharArrayEnumerable(Session, "2021/day/3/input");
-            ulong nbr = PowerConsumptionUnit.ComputeAirValues(input);
+            int nbr = PowerConsumptionUnit.ComputeAirValues(input);
 
             ConsoleOutput.Instance.WriteLine($"Result is {nbr}", OutputLevel.Information);
+            Assert.AreEqual(2990784, nbr);
+        }
+
+        [TestMethod]
+        public void Exercice04_A()
+        {
+            IEnumerable<string> inputs = InputGetter.Multiparse(Session, "2021/day/4/input", "\n\n");
+            IEnumerable<int> numbers = InputGetter.ParseNumberList(inputs.ElementAt(0));
+            IEnumerable<string> grids = InputGetter.ParseToken(inputs.ElementAt(1).TrimEnd(), "\n\n");
+            int nbr = BingoGrid.PlayBingo(grids, numbers);
+
+            ConsoleOutput.Instance.WriteLine($"Result is {nbr}", OutputLevel.Information);
+            Assert.AreEqual(38594, nbr);
+        }
+
+
+        [TestMethod]
+        public void Exercice04_B()
+        {
+            IEnumerable<string> inputs = InputGetter.Multiparse(Session, "2021/day/4/input", "\n\n");
+            IEnumerable<int> numbers = InputGetter.ParseNumberList(inputs.ElementAt(0));
+            IEnumerable<string> grids = InputGetter.ParseToken(inputs.ElementAt(1).TrimEnd(), "\n\n");
+            int nbr = BingoGrid.PlayBingoLonger(grids, numbers);
+
+            ConsoleOutput.Instance.WriteLine($"Result is {nbr}", OutputLevel.Information);
+            Assert.AreEqual(21184, nbr);
         }
     }
 }

@@ -56,5 +56,35 @@ namespace AdventOfCode2021
                 .Where(i => !string.IsNullOrWhiteSpace(i))
                 .Select(i => i.ToCharArray()));
         }
+
+        public static IEnumerable<string> Multiparse(string session, string url, params string[] tokens)
+        {
+            HttpClient client = GenerateClient(session);
+            string input = client.GetAsync(url).Result.Content.ReadAsStringAsync().Result;
+            List<string> strings = new List<string>();
+
+            foreach (string token in tokens)
+            {
+                int idx = input.IndexOf(token);
+                string temp = input.Substring(0, idx);
+
+                strings.Add(temp);
+                input = input.Substring(idx + token.Length, input.Length - idx - token.Length);
+            }
+
+            strings.Add(input);
+            return (strings);
+        }
+
+        public static IEnumerable<int> ParseNumberList(string list)
+        {
+            return (list.Split(',')
+                .Select(int.Parse));
+        }
+
+        public static IEnumerable<string> ParseToken(string str, string token)
+        {
+            return (str.Split(token));
+        }
     }
 }
