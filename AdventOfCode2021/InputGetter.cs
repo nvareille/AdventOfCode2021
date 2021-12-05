@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using AdventOfCode2021.Extensions;
 
 namespace AdventOfCode2021
 {
@@ -85,6 +86,20 @@ namespace AdventOfCode2021
         public static IEnumerable<string> ParseToken(string str, string token)
         {
             return (str.Split(token));
+        }
+
+        public static IEnumerable<(Coordinates a, Coordinates b)> GetCoordinateRanges(string session, string url)
+        {
+            HttpClient client = GenerateClient(session);
+            string input = client.GetAsync(url).Result.Content.ReadAsStringAsync().Result;
+
+            return (input.Split("\n")
+                .Where(i => !string.IsNullOrWhiteSpace(i))
+                .Select(i => i.Split(" -> ")
+                    .Select(o => o.Split(",")
+                        .Then(e => new Coordinates(e[0], e[1])))
+                    .ToArray()
+                    .Then(o => (o.First(), o.Last()))));
         }
     }
 }

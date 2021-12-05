@@ -98,5 +98,30 @@ namespace Results
             ConsoleOutput.Instance.WriteLine($"Result is {nbr}", OutputLevel.Information);
             Assert.AreEqual(21184, nbr);
         }
+
+        [TestMethod]
+        public void Exercice05_A()
+        {
+            IEnumerable<(Coordinates a, Coordinates b)> inputs = InputGetter.GetCoordinateRanges(Session, "2021/day/5/input");
+            HydroThermalVentsAnalyzer analyzer = new HydroThermalVentsAnalyzer(inputs);
+
+            int nbr = analyzer.GetOverlapingPoints();
+
+            ConsoleOutput.Instance.WriteLine($"Result is {nbr}", OutputLevel.Information);
+            Assert.AreEqual(4873, nbr);
+        }
+
+
+        [TestMethod]
+        public void Exercice05_B()
+        {
+            IEnumerable<(Coordinates a, Coordinates b)> inputs = InputGetter.GetCoordinateRanges(Session, "2021/day/5/input");
+            HydroThermalVentsAnalyzer analyzer = new HydroThermalVentsAnalyzer(inputs);
+
+            int nbr = analyzer.GetOverlapingPoints(diagonal: true);
+
+            ConsoleOutput.Instance.WriteLine($"Result is {nbr}", OutputLevel.Information);
+            Assert.AreEqual(19472, nbr);
+        }
     }
 }
