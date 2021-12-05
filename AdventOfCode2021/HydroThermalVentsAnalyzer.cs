@@ -49,9 +49,15 @@ namespace AdventOfCode2021
                 int x = 0;
                 int y = 0;
 
-                if (diagonal == false
-                    && (input.a.X != input.b.X 
-                    && input.a.Y != input.b.Y))
+               ConditionBrancher<(int x, int y)> brancher = new ConditionBrancher<(int x, int y)>()
+                   .Append(data => input.a.X + data.x > input.b.X, () => --x)
+                   .Append(data => input.a.X + data.x < input.b.X, () => ++x)
+                   .Append(data => input.a.Y + data.y > input.b.Y, () => --y)
+                   .Append(data => input.a.Y + data.y < input.b.Y, () => ++y);
+
+               if (diagonal == false
+                   && (input.a.X != input.b.X 
+                       && input.a.Y != input.b.Y))
                     continue;
 
                 while (input.a.X + x != input.b.X 
@@ -59,14 +65,7 @@ namespace AdventOfCode2021
                 {
                     ++Map[input.a.X + x][input.a.Y + y];
 
-                    if (input.a.X + x > input.b.X)
-                        --x;
-                    if (input.a.X + x < input.b.X)
-                        ++x;
-                    if (input.a.Y + y > input.b.Y)
-                        --y;
-                    if (input.a.Y + y < input.b.Y)
-                        ++y;
+                    brancher.Evaluate((x, y), false);
                 }
 
                 ++Map[input.a.X + x][input.a.Y + y];
