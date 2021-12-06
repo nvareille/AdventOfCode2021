@@ -123,5 +123,26 @@ namespace Results
             ConsoleOutput.Instance.WriteLine($"Result is {nbr}", OutputLevel.Information);
             Assert.AreEqual(19472, nbr);
         }
+
+        [TestMethod]
+        public void Exercice06_A()
+        {
+            IEnumerable<int> inputs = InputGetter.GetInputAndTreat(Session, "2021/day/6/input", InputGetter.ParseNumberList);
+            long nbr = LanternFishComputer.ComputeStateAfterOptimized(inputs, 80);
+
+            ConsoleOutput.Instance.WriteLine($"Result is {nbr}", OutputLevel.Information);
+            Assert.AreEqual(352195, nbr);
+        }
+
+
+        [TestMethod]
+        public void Exercice06_B()
+        {
+            IEnumerable<int> inputs = InputGetter.GetInputAndTreat(Session, "2021/day/6/input", InputGetter.ParseNumberList);
+            long nbr = LanternFishComputer.ComputeStateAfterOptimized(inputs, 256);
+
+            ConsoleOutput.Instance.WriteLine($"Result is {nbr}", OutputLevel.Information);
+            Assert.AreEqual(1600306001288, nbr);
+        }
     }
 }
