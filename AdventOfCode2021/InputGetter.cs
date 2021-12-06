@@ -27,6 +27,14 @@ namespace AdventOfCode2021
             return (client);
         }
 
+        public static T GetInputAndTreat<T>(string session, string url, Func<string, T> fct)
+        {
+            HttpClient client = GenerateClient(session);
+            string input = client.GetAsync(url).Result.Content.ReadAsStringAsync().Result;
+
+            return (fct(input));
+        }
+
         public static IEnumerable<int> GetInputAsIntArray(string session, string url)
         {
             HttpClient client = GenerateClient(session);
