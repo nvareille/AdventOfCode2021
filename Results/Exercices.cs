@@ -144,5 +144,28 @@ namespace Results
             ConsoleOutput.Instance.WriteLine($"Result is {nbr}", OutputLevel.Information);
             Assert.AreEqual(1600306001288, nbr);
         }
+
+        [TestMethod]
+        public void Exercice07_A()
+        {
+            IEnumerable<int> inputs = InputGetter.GetInputAndTreat(Session, "2021/day/7/input", InputGetter.ParseNumberList);
+            (int position, int fuel) nbr = CrabComputing.ComputeClosestPosition(inputs, CrabComputing.GetDistance);
+
+            ConsoleOutput.Instance.WriteLine($"Result is {nbr.position} {nbr.fuel}", OutputLevel.Information);
+            Assert.AreEqual(342, nbr.position);
+            Assert.AreEqual(325528, nbr.fuel);
+        }
+
+
+        [TestMethod]
+        public void Exercice07_B()
+        {
+            IEnumerable<int> inputs = InputGetter.GetInputAndTreat(Session, "2021/day/7/input", InputGetter.ParseNumberList);
+            (int position, int fuel) nbr = CrabComputing.ComputeClosestPosition(inputs, CrabComputing.GetDistanceInc);
+
+            ConsoleOutput.Instance.WriteLine($"Result is {nbr.position} {nbr.fuel}", OutputLevel.Information);
+            Assert.AreEqual(460, nbr.position);
+            Assert.AreEqual(85015836, nbr.fuel);
+        }
     }
 }
