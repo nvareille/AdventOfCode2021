@@ -109,5 +109,24 @@ namespace AdventOfCode2021
                     .ToArray()
                     .Then(o => (o.First(), o.Last()))));
         }
+
+        public static IEnumerable<(string[], string[])> GetDelimitedStringArray(string session, string url)
+        {
+            HttpClient client = GenerateClient(session);
+            string input = client.GetAsync(url).Result.Content.ReadAsStringAsync().Result;
+
+            return (input.Split("\n")
+                .Where(i => !string.IsNullOrWhiteSpace(i))
+                .Select(o => o.Split("|")
+                    .Then(a =>
+                    (
+                        a.First()
+                            .Trim()
+                            .Split(" "),
+                        a.Last()
+                            .Trim()
+                            .Split(" ")
+                    ))));
+        }
     }
 }

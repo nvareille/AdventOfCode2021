@@ -167,5 +167,26 @@ namespace Results
             Assert.AreEqual(460, nbr.position);
             Assert.AreEqual(85015836, nbr.fuel);
         }
+
+        [TestMethod]
+        public void Exercice08_A()
+        {
+            IEnumerable<(string[], string[])> inputs = InputGetter.GetDelimitedStringArray(Session, "2021/day/8/input");
+            int nbr = WireSegments.FindMatchingSimpleWires(inputs);
+
+            ConsoleOutput.Instance.WriteLine($"Result is {nbr}", OutputLevel.Information);
+            Assert.AreEqual(237, nbr);
+        }
+
+
+        [TestMethod]
+        public void Exercice08_B()
+        {
+            IEnumerable<(string[], string[])> inputs = InputGetter.GetDelimitedStringArray(Session, "2021/day/8/input");
+            int nbr = WireSegments.FindComplexMatchingWires(inputs);
+
+            ConsoleOutput.Instance.WriteLine($"Result is {nbr}", OutputLevel.Information);
+            Assert.AreEqual(1009098, nbr);
+        }
     }
 }
