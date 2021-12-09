@@ -60,15 +60,12 @@ namespace AdventOfCode2021
 
         public static IEnumerable<int> FindBasins(int[][] input)
         {
-            List<int> found = new List<int>();
             IEnumerable<(int x, int y)> points = FindLowerPoints(input);
 
             foreach ((int x, int y) point in points)
             {
-                found.Add(IteratePoints(input, point.x, point.y).Sum());
+                yield return (IteratePoints(input, point.x, point.y).Sum());
             }
-
-            return (found);
         }
 
         private static IEnumerable<int> IteratePoints(int[][] input, int x, int y)
