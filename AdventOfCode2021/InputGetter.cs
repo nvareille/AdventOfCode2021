@@ -128,5 +128,20 @@ namespace AdventOfCode2021
                             .Split(" ")
                     ))));
         }
+
+        public static int[][] GetAsIntArraySingleDigit(string session, string url)
+        {
+            HttpClient client = GenerateClient(session);
+            string input = client.GetAsync(url).Result.Content.ReadAsStringAsync().Result;
+
+            return (input
+                .Split("\n")
+                .Select(i =>
+                    i.Select(o =>
+                        int.Parse(o.ToString()))
+                        .ToArray())
+                .ToArray());
+
+        }
     }
 }
