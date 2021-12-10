@@ -188,5 +188,50 @@ namespace Results
             ConsoleOutput.Instance.WriteLine($"Result is {nbr}", OutputLevel.Information);
             Assert.AreEqual(1009098, nbr);
         }
+
+        [TestMethod]
+        public void Exercice09_A()
+        {
+            int[][] input = InputGetter.GetAsIntArraySingleDigit(Session, "2021/day/9/input");
+            int nbr = SmokeBasin.ComputeRiskLevel(input);
+
+            ConsoleOutput.Instance.WriteLine($"Result is {nbr}", OutputLevel.Information);
+            Assert.AreEqual(539, nbr);
+        }
+
+
+        [TestMethod]
+        public void Exercice09_B()
+        {
+            int[][] input = InputGetter.GetAsIntArraySingleDigit(Session, "2021/day/9/input");
+            IEnumerable<int> value = SmokeBasin.FindBasins(input);
+            int nbr = value.OrderByDescending(i => i)
+                .Take(3)
+                .Aggregate((a, b) => a * b);
+
+
+            ConsoleOutput.Instance.WriteLine($"Result is {nbr}", OutputLevel.Information);
+            Assert.AreEqual(736920, nbr);
+        }
+
+        [TestMethod]
+        public void Exercice10_A()
+        {
+            string[] input = InputGetter.GetAsStringArray(Session, "2021/day/10/input");
+            long nbr = SyntaxChecker.ComputeScoreErrors(input);
+
+            ConsoleOutput.Instance.WriteLine($"Result is {nbr}", OutputLevel.Information);
+            Assert.AreEqual(374061, nbr);
+        }
+
+        [TestMethod]
+        public void Exercice10_B()
+        {
+            string[] input = InputGetter.GetAsStringArray(Session, "2021/day/10/input");
+            long nbr = SyntaxChecker.ComputeAutocompleteScore(input);
+
+            ConsoleOutput.Instance.WriteLine($"Result is {nbr}", OutputLevel.Information);
+            Assert.AreEqual(2116639949, nbr);
+        }
     }
 }

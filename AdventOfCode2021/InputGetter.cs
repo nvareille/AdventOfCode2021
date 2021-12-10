@@ -143,5 +143,17 @@ namespace AdventOfCode2021
                 .ToArray());
 
         }
+
+        public static string[] GetAsStringArray(string session, string url)
+        {
+            HttpClient client = GenerateClient(session);
+            string input = client.GetAsync(url).Result.Content.ReadAsStringAsync().Result;
+
+            return (input
+                .Split("\n")
+                .Where(i => !string.IsNullOrWhiteSpace(i))
+                .ToArray());
+
+        }
     }
 }
