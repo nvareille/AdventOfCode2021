@@ -140,6 +140,7 @@ namespace AdventOfCode2021
                     i.Select(o =>
                         int.Parse(o.ToString()))
                         .ToArray())
+                .Where(i => i.Length > 0)
                 .ToArray());
 
         }

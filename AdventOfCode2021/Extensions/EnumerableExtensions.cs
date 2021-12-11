@@ -12,5 +12,16 @@ namespace AdventOfCode2021.Extensions
         {
             return (fct(obj));
         }
+
+        public static void IterateIntArray(this int[][] array, Action<int, int> fct)
+        {
+            foreach (int x in Enumerable.Range(0, array.Length))
+            {
+                foreach (int y in Enumerable.Range(0, array[0].Length))
+                {
+                    fct(x, y);
+                }
+            }
+        }
     }
 }

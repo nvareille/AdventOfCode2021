@@ -233,5 +233,27 @@ namespace Results
             ConsoleOutput.Instance.WriteLine($"Result is {nbr}", OutputLevel.Information);
             Assert.AreEqual(2116639949, nbr);
         }
+
+        [TestMethod]
+        public void Exercice11_A()
+        {
+            int[][] input = InputGetter.GetAsIntArraySingleDigit(Session, "2021/day/11/input");
+            OctopusFlashAnalyzer analyzer = new OctopusFlashAnalyzer(input);
+            int nbr = analyzer.ComputeFlashSteps(100); 
+
+            ConsoleOutput.Instance.WriteLine($"Result is {nbr}", OutputLevel.Information);
+            Assert.AreEqual(1757, nbr);
+        }
+
+        [TestMethod]
+        public void Exercice11_B()
+        {
+            int[][] input = InputGetter.GetAsIntArraySingleDigit(Session, "2021/day/11/input");
+            OctopusFlashAnalyzer analyzer = new OctopusFlashAnalyzer(input);
+            int nbr = analyzer.ComputeSynchroneFlashSteps();
+
+            ConsoleOutput.Instance.WriteLine($"Result is {nbr}", OutputLevel.Information);
+            Assert.AreEqual(422, nbr);
+        }
     }
 }
