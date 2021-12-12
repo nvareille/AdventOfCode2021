@@ -19,12 +19,12 @@ namespace AdventOfCode2021
 
         private void ProduceEnergyAt(int x, int y)
         {
-            try
-            {
-                if (!Flashed.Any(i => i.x == x && i.y == y))
-                    ++Input[x][y];
-            }
-            catch (Exception) { }
+            if (x < 0 || x >= Input.Length
+                || y < 0 || y>= Input[0].Length)
+                return;
+
+            if (!Flashed.Any(i => i.x == x && i.y == y))
+                ++Input[x][y];
         }
 
         private bool CheckNeedIterate()

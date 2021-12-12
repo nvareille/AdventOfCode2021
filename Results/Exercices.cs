@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AdventOfCode2021;
+using AdventOfCode2021.Containers;
 using AdventOfCode2021.Enums;
+using AdventOfCode2021.Extensions;
 using Microsoft.VisualStudio.TestPlatform.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -254,6 +256,39 @@ namespace Results
 
             ConsoleOutput.Instance.WriteLine($"Result is {nbr}", OutputLevel.Information);
             Assert.AreEqual(422, nbr);
+        }
+
+        [TestMethod]
+        public void Exercice12_A()
+        {
+            IEnumerable<(string, string)> input = InputGetter.GetInputAndTreat(Session, "2021/day/12/input", i => i.Split("\n")
+                    .Where(o => !string.IsNullOrWhiteSpace(o))
+                    .Select(o => o.Split("-")
+                        .Then(e => (e[0], e[1]))))
+                .ToArray();
+            CavePathAnalyzer analyzer = new CavePathAnalyzer(input);
+            int nbr = analyzer.AnalyzePaths();
+            
+            ConsoleOutput.Instance.WriteLine($"Result is {nbr}", OutputLevel.Information);
+            Assert.AreEqual(5457, nbr);
+        }
+
+        [TestMethod]
+        public void Exercice12_B()
+        {
+            IEnumerable<(string, string)> input = InputGetter.GetInputAndTreat(Session, "2021/day/12/input", i => i
+                    .Split("\n")
+                    .Where(o => !string.IsNullOrWhiteSpace(o))
+                    .Select(o => o.Split("-")
+                        .Then(e => (e[0], e[1]))))
+                .ToArray();
+
+
+            CavePathAnalyzer analyzer = new CavePathAnalyzer(input, true);
+            int nbr = analyzer.AnalyzePaths();
+
+            ConsoleOutput.Instance.WriteLine($"Result is {nbr}", OutputLevel.Information);
+            Assert.AreEqual(128506, nbr);
         }
     }
 }
