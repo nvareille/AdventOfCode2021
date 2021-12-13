@@ -290,5 +290,102 @@ namespace Results
             ConsoleOutput.Instance.WriteLine($"Result is {nbr}", OutputLevel.Information);
             Assert.AreEqual(128506, nbr);
         }
+
+        [TestMethod]
+        public void Exercice13_Example()
+        {
+            string data =
+                "6,10\r\n0,14\r\n9,10\r\n0,3\r\n10,4\r\n4,11\r\n6,0\r\n6,12\r\n4,1\r\n0,13\r\n10,12\r\n3,4\r\n3,0\r\n8,4\r\n1,10\r\n2,14\r\n8,10\r\n9,0\r\n\r\nfold along y=7\r\nfold along x=5";
+
+            (IEnumerable<(int, int)>, IEnumerable<(char, int)>) input = InputGetter.GetInputAndTreat(Session, "2021/day/13/input", i => data.Split("\r\n\r\n")
+                .Where(o => !string.IsNullOrWhiteSpace(o))
+                .Then(o => 
+                (
+                    o.First()
+                        .Split("\r\n")
+                        .Select(e => e.Split(",")
+                            .Then(a => (int.Parse(a[0]), int.Parse(a[1])))),
+                    o.Last()
+                        .Split("\r\n")
+                        .Where(e => !string.IsNullOrWhiteSpace(e))
+                        .Select(e => e.Substring(e.IndexOf("=") - 1)
+                            .Split("=")
+                            .Then(a => (a[0][0], int.Parse(a[1]))))
+                )));
+
+            OrigamiEngine origami = new OrigamiEngine(input);
+
+            origami.Debug(c => ConsoleOutput.Instance.Write(c, OutputLevel.Information),
+                () => ConsoleOutput.Instance.WriteLine("", OutputLevel.Information));
+
+            ConsoleOutput.Instance.WriteLine("------------------------", OutputLevel.Information);
+
+            origami.FoldOnce();
+
+            origami.Debug(c => ConsoleOutput.Instance.Write(c, OutputLevel.Information),
+                () => ConsoleOutput.Instance.WriteLine("", OutputLevel.Information));
+
+            ConsoleOutput.Instance.WriteLine("------------------------", OutputLevel.Information);
+
+            int nbr = origami.GetDots();
+            
+            ConsoleOutput.Instance.WriteLine($"Result is {nbr}", OutputLevel.Information);
+            Assert.AreEqual(17, nbr);
+        }
+
+        [TestMethod]
+        public void Exercice13_A()
+        {
+            (IEnumerable<(int, int)>, IEnumerable<(char, int)>) input = InputGetter.GetInputAndTreat(Session, "2021/day/13/input", i => i.Split("\n\n")
+                .Where(o => !string.IsNullOrWhiteSpace(o))
+                .Then(o =>
+                (
+                    o.First()
+                        .Split("\n")
+                        .Select(e => e.Split(",")
+                            .Then(a => (int.Parse(a[0]), int.Parse(a[1])))),
+                    o.Last()
+                        .Split("\n")
+                        .Where(e => !string.IsNullOrWhiteSpace(e))
+                        .Select(e => e.Substring(e.IndexOf("=") - 1)
+                            .Split("=")
+                            .Then(a => (a[0][0], int.Parse(a[1]))))
+                )));
+
+            OrigamiEngine origami = new OrigamiEngine(input);
+
+            origami.FoldOnce();
+
+            int nbr = origami.GetDots();
+
+            ConsoleOutput.Instance.WriteLine($"Result is {nbr}", OutputLevel.Information);
+            Assert.AreEqual(753, nbr);
+        }
+
+        [TestMethod]
+        public void Exercice13_B()
+        {
+            (IEnumerable<(int, int)>, IEnumerable<(char, int)>) input = InputGetter.GetInputAndTreat(Session, "2021/day/13/input", i => i.Split("\n\n")
+                .Where(o => !string.IsNullOrWhiteSpace(o))
+                .Then(o =>
+                (
+                    o.First()
+                        .Split("\n")
+                        .Select(e => e.Split(",")
+                            .Then(a => (int.Parse(a[0]), int.Parse(a[1])))),
+                    o.Last()
+                        .Split("\n")
+                        .Where(e => !string.IsNullOrWhiteSpace(e))
+                        .Select(e => e.Substring(e.IndexOf("=") - 1)
+                            .Split("=")
+                            .Then(a => (a[0][0], int.Parse(a[1]))))
+                )));
+
+            OrigamiEngine origami = new OrigamiEngine(input);
+
+            origami.Fold();
+            origami.Debug(c => ConsoleOutput.Instance.Write(c, OutputLevel.Information),
+                () => ConsoleOutput.Instance.WriteLine("", OutputLevel.Information));
+        }
     }
 }

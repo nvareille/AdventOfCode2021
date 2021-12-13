@@ -35,7 +35,6 @@ namespace AdventOfCode2021
         public static long ComputeLineScore(string str, bool mode = false)
         {
             Stack<char> semantics = new Stack<char>();
-            char[] openings = Tokens.Select(i => i.open).ToArray();
             Dictionary<char, int> scores = new();
             long total = 0;
 
@@ -52,10 +51,8 @@ namespace AdventOfCode2021
 
             foreach (char c in str)
             {
-                if (openings.Contains(c))
-                {
+                if (Tokens.Any(i => i.open == c))
                     semantics.Push(c);
-                }
                 else
                 {
                     (char open, char close, int score) found = Tokens.First(i => i.close == c);

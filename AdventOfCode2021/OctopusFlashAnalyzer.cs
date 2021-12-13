@@ -31,7 +31,7 @@ namespace AdventOfCode2021
         {
             bool c = false;
 
-            Input.IterateIntArray((x, y) =>
+            Input.IterateDoubleArray((x, y) =>
             {
                 if (Input[x][y] > 9) 
                     c = true;
@@ -43,13 +43,13 @@ namespace AdventOfCode2021
         private int Iterate()
         {
             Flashed.Clear();
-            Input.IterateIntArray((x, y) => ++Input[x][y]);
+            Input.IterateDoubleArray((x, y) => ++Input[x][y]);
             
             bool c = CheckNeedIterate();
             
             while (c)
             {
-                Input.IterateIntArray((x, y) =>
+                Input.IterateDoubleArray((x, y) =>
                 {
                     if (Input[x][y] > 9)
                     {
