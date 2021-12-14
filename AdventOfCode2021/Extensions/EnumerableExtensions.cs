@@ -23,5 +23,17 @@ namespace AdventOfCode2021.Extensions
                 }
             }
         }
+
+        public static Dictionary<T, U> ToDictionary<T, U>(this IEnumerable<(T, U)> tuples)
+        {
+            Dictionary<T, U> dict = new();
+
+            foreach ((T, U) tuple in tuples)
+            {
+                dict[tuple.Item1] = tuple.Item2;
+            }
+
+            return (dict);
+        }
     }
 }

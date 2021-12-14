@@ -387,5 +387,79 @@ namespace Results
             origami.Debug(c => ConsoleOutput.Instance.Write(c, OutputLevel.Information),
                 () => ConsoleOutput.Instance.WriteLine("", OutputLevel.Information));
         }
+
+        [TestMethod]
+        public void Exercice14_Example()
+        {
+            string data =
+                "NNCB\r\n\r\nCH -> B\r\nHH -> N\r\nCB -> H\r\nNH -> C\r\nHB -> C\r\nHC -> B\r\nHN -> C\r\nNN -> C\r\nBH -> H\r\nNC -> B\r\nNB -> B\r\nBN -> B\r\nBB -> N\r\nBC -> B\r\nCC -> N\r\nCN -> C";
+
+            (string, Dictionary<string, char>) input = InputGetter.GetInputAndTreat(Session, "2021/day/14/input", i => data.Split("\r\n\r\n")
+                .Where(o => !string.IsNullOrWhiteSpace(o))
+                .ToArray()
+                .Then(o =>
+                (
+                    o.First(),
+                    o.Last()
+                        .Split("\r\n")
+                        .Where(e => !string.IsNullOrWhiteSpace(e))
+                        .Select(e => e.Split(" -> ")
+                            .Then(a => (a.First(), a.Last().First())))
+                        .ToDictionary()
+                )));
+
+            long nbr = Polymerizer.PolymerizeOpti(input.Item1, input.Item2, 10);
+            
+            Logger.WriteLine($"Result is {nbr}");
+            Assert.AreEqual(1588, nbr);
+        }
+
+        [TestMethod]
+        public void Exercice14_A()
+        {
+            (string, Dictionary<string, char>) input = InputGetter.GetInputAndTreat(Session, "2021/day/14/input", i => i.Split("\n\n")
+                .Where(o => !string.IsNullOrWhiteSpace(o))
+                .ToArray()
+                .Then(o =>
+                (
+                    o.First(),
+                    o.Last()
+                        .Split("\n")
+                        .Where(e => !string.IsNullOrWhiteSpace(e))
+                        .Select(e => e.Split(" -> ")
+                            .Then(a => (a.First(), a.Last().First())))
+                        .ToDictionary()
+                )));
+
+
+            long nbr = Polymerizer.PolymerizeOpti(input.Item1, input.Item2, 10);
+
+            Logger.WriteLine($"Result is {nbr}");
+            Assert.AreEqual(3831, nbr);
+        }
+
+        [TestMethod]
+        public void Exercice14_B()
+        {
+            (string, Dictionary<string, char>) input = InputGetter.GetInputAndTreat(Session, "2021/day/14/input", i => i.Split("\n\n")
+                .Where(o => !string.IsNullOrWhiteSpace(o))
+                .ToArray()
+                .Then(o =>
+                (
+                    o.First(),
+                    o.Last()
+                        .Split("\n")
+                        .Where(e => !string.IsNullOrWhiteSpace(e))
+                        .Select(e => e.Split(" -> ")
+                            .Then(a => (a.First(), a.Last().First())))
+                        .ToDictionary()
+                )));
+
+
+            long nbr = Polymerizer.PolymerizeOpti(input.Item1, input.Item2, 40);
+
+            Logger.WriteLine($"Result is {nbr}");
+            Assert.AreEqual(5725739914282, nbr);
+        }
     }
 }
