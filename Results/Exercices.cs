@@ -471,7 +471,21 @@ namespace Results
             int nbr = analyzer.GetPathDifficulty();
 
             Logger.WriteLine($"Result is {nbr}");
-            Assert.AreEqual(3831, nbr);
+            Assert.AreEqual(540, nbr);
+        }
+
+        [TestMethod]
+        public void Exercice15_B()
+        {
+            int[][] input = InputGetter.GetAsIntArraySingleDigit(Session, "2021/day/15/input");
+
+            input = ChitonCave.ScaleMap(input);
+            ChitonCave analyzer = new ChitonCave(input);
+
+            int nbr = analyzer.GetPathDifficulty();
+
+            Logger.WriteLine($"Result is {nbr}");
+            Assert.AreEqual(2879, nbr);
         }
     }
 }

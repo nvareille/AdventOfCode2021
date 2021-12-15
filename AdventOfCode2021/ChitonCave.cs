@@ -20,12 +20,21 @@ namespace AdventOfCode2021
             Y = y;
         }
 
+        public string GenKey()
+        {
+            return ($"{X} {Y}");
+        }
+
         public IEnumerable<CaveBeacon> CreateAdjacent(int[][] cave)
         {
             if (X < cave[0].Length - 1)
                 yield return new CaveBeacon(Difficulty + cave[Y][X + 1], X + 1, Y);
             if (Y < cave.Length - 1)
                 yield return new CaveBeacon(Difficulty + cave[Y + 1][X], X, Y + 1);
+            if (X > 0)
+                yield return new CaveBeacon(Difficulty + cave[Y][X - 1], X - 1, Y);
+            if (Y > 0)
+                yield return new CaveBeacon(Difficulty + cave[Y - 1][X], X, Y - 1);
         }
     }
 
@@ -34,37 +43,94 @@ namespace AdventOfCode2021
         public int[][] Cave;
         public int Solution = 10000000;
         public (int X, int Y) Goal;
+        public Dictionary<string, int> Checkpoints = new Dictionary<string, int>();
 
         public ChitonCave(int[][] cave)
         {
             Cave = cave;
             Goal = (Cave[0].Length - 1, Cave.Length - 1);
         }
-        
+
+        private static int GenNewFactor(int nbr, int add)
+        {
+            nbr += add;
+            
+            while (nbr > 9)
+                nbr -= 9;
+
+            return (nbr);
+        }
+
+        public static int[][] ScaleMap(int[][] cave)
+        {
+            int sizeX = cave[0].Length;
+            int sizeY = cave.Length;
+            int[][] newCave = EnumerableExtensions.Gen2DArray<int>(sizeX * 5, sizeY * 5);
+            int countX = 0;
+
+            while (countX < 5)
+            {
+                int countY = 0;
+
+                while (countY < 5)
+                {
+                    cave.IterateDoubleArray((x, y) =>
+                    {
+                        newCave[countY * sizeY + y][countX * sizeX + x] = GenNewFactor(cave[x][y], countX + countY);
+                    });
+
+                    ++countY;
+                }
+                
+                ++countX;
+            }
+
+            return (newCave);
+        }
+
+        private bool IsLowerDifficulty(CaveBeacon beacon)
+        {
+            string key = beacon.GenKey();
+            int checkpoint = 1000000;
+
+            if (Checkpoints.ContainsKey(key))
+                checkpoint = Checkpoints[key];
+            else
+                Checkpoints[key] = checkpoint;
+
+            return (checkpoint > beacon.Difficulty);
+        }
+
         private void RecursiveCrawl(List<CaveBeacon> beacons)
         {
-            List<CaveBeacon> next = new List<CaveBeacon>();
-
             while (beacons.Any())
             {
-                IEnumerable<IGrouping<string, CaveBeacon>> temp = beacons.SelectMany(i => i.CreateAdjacent(Cave))
-                    .ToArray()
-                    .GroupBy(i => $"{i.X} {i.Y}");
+                List<CaveBeacon> next = new List<CaveBeacon>();
+                IEnumerable<CaveBeacon> temp = beacons.SelectMany(i => i.CreateAdjacent(Cave))
+                    .Where(IsLowerDifficulty)
+                    .GroupBy(i => i.GenKey())
+                    .Select(i => i.OrderBy(o => o.Difficulty)
+                        .First())
+                    .ToArray();
 
-                foreach (var grouping in temp)
+                foreach (CaveBeacon beacon in temp)
                 {
-                    CaveBeacon beacon = grouping.OrderByDescending(i => i.Difficulty)
-                        .First();
+                    int checkpoint = Checkpoints[beacon.GenKey()];
                     
-                    if (beacon.X == Goal.X && beacon.Y == Goal.Y)
+                    if (checkpoint > beacon.Difficulty)
                     {
-                        if (beacon.Difficulty < Solution)
-                            Solution = beacon.Difficulty;
+                        Checkpoints[beacon.GenKey()] = beacon.Difficulty;
 
-                        continue;
+                        if (beacon.X == Goal.X && beacon.Y == Goal.Y)
+                        {
+                            if (beacon.Difficulty < Solution)
+                                Solution = beacon.Difficulty;
+
+                            continue;
+                        }
+
+                        next.Add(beacon);
                     }
-
-                    next.Add(beacon);
                 }
 
                 beacons = next;
