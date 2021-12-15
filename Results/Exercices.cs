@@ -461,5 +461,17 @@ namespace Results
             Logger.WriteLine($"Result is {nbr}");
             Assert.AreEqual(5725739914282, nbr);
         }
+
+        [TestMethod]
+        public void Exercice15_A()
+        {
+            int[][] input = InputGetter.GetAsIntArraySingleDigit(Session, "2021/day/15/input");
+            ChitonCave analyzer = new ChitonCave(input);
+
+            int nbr = analyzer.GetPathDifficulty();
+
+            Logger.WriteLine($"Result is {nbr}");
+            Assert.AreEqual(3831, nbr);
+        }
     }
 }

@@ -35,5 +35,18 @@ namespace AdventOfCode2021.Extensions
 
             return (dict);
         }
+
+        public static T[][] Gen2DArray<T>(int x, int y)
+        {
+            T[][] array = new T[x][];
+
+            while (x > 0)
+            {
+                --x;
+                array[x] = new T[y];
+            }
+
+            return (array);
+        }
     }
 }
