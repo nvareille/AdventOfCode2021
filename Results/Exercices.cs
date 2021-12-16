@@ -487,5 +487,60 @@ namespace Results
             Logger.WriteLine($"Result is {nbr}");
             Assert.AreEqual(2879, nbr);
         }
+
+        [TestMethod]
+        public void Exercice16_Example_A()
+        {
+            string input = "8A004A801A8002F478";
+            PacketDecoder decoder = new PacketDecoder(input);
+
+            long nbr = decoder.Root.GetSubVersions();
+
+            Logger.WriteLine($"Result is {nbr}");
+            Assert.AreEqual(16, nbr);
+        }
+
+        [TestMethod]
+        public void Exercice16_Example_B()
+        {
+            string input = "620080001611562C8802118E34";
+            PacketDecoder decoder = new PacketDecoder(input);
+
+            long nbr = decoder.Root.GetSubVersions();
+
+            Logger.WriteLine($"Result is {nbr}");
+            Assert.AreEqual(12, nbr);
+        }
+
+
+        [TestMethod]
+        public void Exercice16_A()
+        {
+            string input = InputGetter.GetInputAndTreat(Session, "2021/day/16/input", i => i.Where(i => i != '\n')
+                    .ToArray())
+                .Then(i => new string(i));
+
+            PacketDecoder decoder = new PacketDecoder(input);
+
+            int nbr = decoder.Root.GetSubVersions();
+
+            Logger.WriteLine($"Result is {nbr}");
+            Assert.AreEqual(901, nbr);
+        }
+
+        [TestMethod]
+        public void Exercice16_B()
+        {
+            string input = InputGetter.GetInputAndTreat(Session, "2021/day/16/input", i => i.Where(i => i != '\n')
+                    .ToArray())
+                .Then(i => new string(i));
+
+            PacketDecoder decoder = new PacketDecoder(input);
+
+            long nbr = decoder.Compute();
+
+            Logger.WriteLine($"Result is {nbr}");
+            Assert.AreEqual(110434737925, nbr);
+        }
     }
 }
