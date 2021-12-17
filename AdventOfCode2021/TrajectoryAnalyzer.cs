@@ -79,10 +79,8 @@ namespace AdventOfCode2021
                 posX += x;
                 posY += y;
 
-                if (x > 0)
-                    --x;
-                else if (x < 0)
-                    ++x;
+                /* Merci @Paul-Maxime */
+                x += -Math.Sign(x);
                 --y;
             }
 
