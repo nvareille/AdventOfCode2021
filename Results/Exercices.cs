@@ -542,5 +542,72 @@ namespace Results
             Logger.WriteLine($"Result is {nbr}");
             Assert.AreEqual(110434737925, nbr);
         }
+
+        [TestMethod]
+        public void Exercice17_A()
+        {
+            ((int, int), (int, int)) input = InputGetter.GetInputAndTreat(Session, "2021/day/17/input", i => i.Substring(13)
+                    .Split(", ")
+                    .Then(i =>
+                    (
+                        i.First()
+                            .Substring(2)
+                            .Split("..")
+                            .Then(o => 
+                            (
+                                int.Parse(o.First()),
+                                int.Parse(o.Last())
+                            )),
+                        i.Last()
+                            .Substring(2)
+                            .Split("..")
+                            .Then(o =>
+                            (
+                                int.Parse(o.First()),
+                                int.Parse(o.Last())
+                            ))
+                    )));
+
+            
+
+            int nbr = TrajectoryAnalyzer.Compute(input);
+
+            Logger.WriteLine($"Result is {nbr}");
+            Assert.AreEqual(4753, nbr);
+        }
+
+        [TestMethod]
+        public void Exercice17_B()
+        {
+            ((int, int), (int, int)) input = InputGetter.GetInputAndTreat(Session, "2021/day/17/input", i => i.Substring(13)
+                .Split(", ")
+                .Then(i =>
+                (
+                    i.First()
+                        .Substring(2)
+                        .Split("..")
+                        .Then(o =>
+                        (
+                            int.Parse(o.First()),
+                            int.Parse(o.Last())
+                        )),
+                    i.Last()
+                        .Substring(2)
+                        .Split("..")
+                        .Then(o =>
+                        (
+                            int.Parse(o.First()),
+                            int.Parse(o.Last())
+                        ))
+                )));
+
+
+
+            int nbr = TrajectoryAnalyzer.ComputeVelocities(input)
+                .Count();
+
+            Logger.WriteLine($"Result is {nbr}");
+            Assert.AreEqual(1546, nbr);
+        }
     }
 }
