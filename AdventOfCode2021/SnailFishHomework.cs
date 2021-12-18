@@ -71,7 +71,7 @@ namespace AdventOfCode2021
                 .FirstOrDefault(i => i != null));
         }
 
-        public override long GetMagnitude()
+        public override int GetMagnitude()
         {
             SnailFishNumber a = Numbers.First();
             SnailFishNumber b = Numbers.Last();
@@ -149,47 +149,25 @@ namespace AdventOfCode2021
         public LitteralSnailFishNumber FindClosestMember(int direction, CompositeSnailFishNumber start, int idx)
         {
             LitteralSnailFishNumber result;
-
-            if (direction == -1)
-            {
+            
                 while (idx >= 0 && idx < start.Numbers.Count)
                 {
                     if (start.Numbers[idx] is LitteralSnailFishNumber)
                         return (start.Numbers[idx] as LitteralSnailFishNumber);
                     
                     CompositeSnailFishNumber current = start.Numbers[idx] as CompositeSnailFishNumber;
-                    result = FindClosestMember(-1, current, current.Numbers.Count - 1);
+                    result = FindClosestMember(direction, current, (direction == -1 ? current.Numbers.Count - 1 : 0));
 
                     if (result != null)
                         return (result);
-                    
-                    --idx;
+
+                    idx += direction;
                 }
 
                 if (start.Prev != null)
-                    return (FindClosestMember(-1, start.Prev, start.Prev.Numbers.IndexOf(start) - 1));
-            }
-            else
-            {
-                while (idx < start.Numbers.Count)
-                {
-                    if (start.Numbers[idx] is LitteralSnailFishNumber)
-                        return (start.Numbers[idx] as LitteralSnailFishNumber);
-                    
-                    CompositeSnailFishNumber current = start.Numbers[idx] as CompositeSnailFishNumber;
-                    result = FindClosestMember(1, current, 0);
+                    return (FindClosestMember(direction, start.Prev, start.Prev.Numbers.IndexOf(start) + direction));
 
-                    if (result != null)
-                        return (result);
-                
-                    ++idx;
-                }
-
-                if (start.Prev != null)
-                    return (FindClosestMember(1, start.Prev, start.Prev.Numbers.IndexOf(start) + 1));
-            }
-
-            return (null);
+                return (null);
         }
 
         public void Split()
@@ -232,7 +210,7 @@ namespace AdventOfCode2021
             return (Value > 9 ? this : null);
         }
 
-        public override long GetMagnitude()
+        public override int GetMagnitude()
         {
             return (Value);
         }
@@ -245,7 +223,7 @@ namespace AdventOfCode2021
         public abstract override string ToString();
         public abstract SnailFishNumber Clone();
         public abstract LitteralSnailFishNumber MustSplit();
-        public abstract long GetMagnitude();
+        public abstract int GetMagnitude();
     }
 
     public class SnailFishHomework
@@ -286,6 +264,77 @@ namespace AdventOfCode2021
                 }
             } while (consumer.IsFinished()
                      || consumer.Peek() != ']');
+        }
+
+        public static int Compute(IEnumerable<SnailFishNumber> nbrs)
+        {
+            CompositeSnailFishNumber nbr = nbrs.First() as CompositeSnailFishNumber;
+
+            nbrs = nbrs.Skip(1).ToArray();
+
+            foreach (CompositeSnailFishNumber snailFishNumber in nbrs)
+            {
+                nbr = nbr.ReverseAdd(snailFishNumber);
+
+                while (nbr.MustExplode() || nbr.MustSplit() != null)
+                {
+                    if (nbr.MustExplode())
+                    {
+                        nbr.Explode();
+                        continue;
+                    }
+
+                    if (nbr.MustSplit() != null)
+                        nbr.Split();
+                }
+            }
+
+            return (nbr.GetMagnitude());
+        }
+
+        public static int ComputeMax(IEnumerable<CompositeSnailFishNumber> nbrs)
+        {
+            int max = 0;
+            int x = 0;
+
+            while (x < nbrs.Count())
+            {
+                int y = 0;
+
+                while (y < nbrs.Count())
+                {
+                    if (x != y)
+                    {
+                        CompositeSnailFishNumber a = nbrs.ElementAt(x).Clone();
+                        CompositeSnailFishNumber b = nbrs.ElementAt(y).Clone();
+
+                        a = a.ReverseAdd(b);
+
+                        while (a.MustExplode() || a.MustSplit() != null)
+                        {
+                            if (a.MustExplode())
+                            {
+                                a.Explode();
+                                continue;
+                            }
+
+                            if (a.MustSplit() != null)
+                                a.Split();
+                        }
+
+                        int current = a.GetMagnitude();
+
+                        if (max < current)
+                            max = current;
+                    }
+
+                    ++y;
+                }
+
+                ++x;
+            }
+
+            return (max);
         }
     }
 }
