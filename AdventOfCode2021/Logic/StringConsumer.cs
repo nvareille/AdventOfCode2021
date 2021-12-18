@@ -18,9 +18,24 @@
             return (str);
         }
 
+        public void Skip(int length)
+        {
+            Index += length;
+        }
+
         public bool IsFinished()
         {
-            return (Index == Buffer.Length);
+            return (Index >= Buffer.Length);
+        }
+
+        public char Peek()
+        {
+            return (Buffer[Index]);
+        }
+
+        public string Last()
+        {
+            return (Buffer.Substring(Index, Buffer.Length - Index));
         }
     }
 }

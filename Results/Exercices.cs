@@ -609,5 +609,186 @@ namespace Results
             Logger.WriteLine($"Result is {nbr}");
             Assert.AreEqual(1546, nbr);
         }
+
+        [TestMethod]
+        public void Exercice18_Example_A()
+        {
+            CompositeSnailFishNumber n1 = SnailFishHomework.FromString("[1,1]");
+            CompositeSnailFishNumber explodeComplex = SnailFishHomework.FromString("[[[[4,3],4],4],[7,[[8,4],9]]]");
+
+            explodeComplex = explodeComplex.ReverseAdd(n1);
+
+            while (explodeComplex.MustExplode() || explodeComplex.MustSplit() != null)
+            {
+                while (explodeComplex.MustExplode())
+                    explodeComplex.Explode();
+                while (explodeComplex.MustSplit() != null)
+                    explodeComplex.Split();
+            }
+
+            Assert.AreEqual("[[[[0,7],4],[[7,8],[6,0]]],[8,1]]", explodeComplex.ToString());
+        }
+
+        [TestMethod]
+        public void Exercice18_Example_D()
+        {
+            CompositeSnailFishNumber explodeComplex = SnailFishHomework.FromString("[1,1]");
+            int count = 2;
+
+            while (count < 7)
+            {
+                explodeComplex = explodeComplex.ReverseAdd(SnailFishHomework.FromString($"[{count},{count}]"));
+
+                ++count;
+            }
+
+            while (explodeComplex.MustExplode() || explodeComplex.MustSplit() != null)
+            {
+                while (explodeComplex.MustExplode())
+                    explodeComplex.Explode();
+                while (explodeComplex.MustSplit() != null)
+                    explodeComplex.Split();
+            }
+
+            Assert.AreEqual("[[[[5,0],[7,4]],[5,5]],[6,6]]", explodeComplex.ToString());
+        }
+
+        [TestMethod]
+        public void Exercice18_Example_B()
+        {
+            CompositeSnailFishNumber a = SnailFishHomework.FromString("[[1,2],[[3,4],5]]");
+            CompositeSnailFishNumber b = SnailFishHomework.FromString("[[[[0,7],4],[[7,8],[6,0]]],[8,1]]");
+            CompositeSnailFishNumber c = SnailFishHomework.FromString("[[[[1,1],[2,2]],[3,3]],[4,4]]");
+            
+            Assert.AreEqual(143, a.GetMagnitude());
+            Assert.AreEqual(1384, b.GetMagnitude());
+            Assert.AreEqual(445, c.GetMagnitude());
+        }
+
+
+        [TestMethod]
+        public void Exercice18_Example_C()
+        {
+            string data =
+                "[[[0,[4,5]],[0,0]],[[[4,5],[2,6]],[9,5]]]\r\n[7,[[[3,7],[4,3]],[[6,3],[8,8]]]]\r\n[[2,[[0,8],[3,4]]],[[[6,7],1],[7,[1,6]]]]\r\n[[[[2,4],7],[6,[0,5]]],[[[6,8],[2,8]],[[2,1],[4,5]]]]\r\n[7,[5,[[3,8],[1,4]]]]\r\n[[2,[2,2]],[8,[8,1]]]\r\n[2,9]\r\n[1,[[[9,3],9],[[9,0],[0,7]]]]\r\n[[[5,[7,4]],7],1]\r\n[[[[4,2],2],6],[8,7]]";
+            IEnumerable<CompositeSnailFishNumber> nbrs = data
+                .Split("\r\n")
+                .Where(i => !string.IsNullOrEmpty(i))
+                .Select(SnailFishHomework.FromString);
+
+            CompositeSnailFishNumber nbr = nbrs.First() as CompositeSnailFishNumber;
+
+            nbrs = nbrs.Skip(1).ToArray();
+
+            foreach (CompositeSnailFishNumber snailFishNumber in nbrs)
+            {
+                nbr = nbr.ReverseAdd(snailFishNumber);
+
+                while (nbr.MustExplode() || nbr.MustSplit() != null)
+                {
+                    if (nbr.MustExplode())
+                    {
+                        nbr.Explode();
+                        continue;
+                    }
+
+                    if (nbr.MustSplit() != null)
+                    {
+                        nbr.Split();
+                        continue;
+                    }
+                }
+
+                Logger.WriteLine(nbr.ToString());
+
+            }
+            Logger.WriteLine(nbr.GetMagnitude().ToString());
+        }
+
+        [TestMethod]
+        public void Exercice18_A()
+        {
+            IEnumerable<SnailFishNumber> nbrs = InputGetter.GetInputAndTreat(Session, "2021/day/18/input", i => i
+                .Split("\n")
+                .Where(i => !string.IsNullOrEmpty(i))
+                .Select(SnailFishHomework.FromString))
+                .ToArray();
+
+            CompositeSnailFishNumber nbr = nbrs.First() as CompositeSnailFishNumber;
+
+            nbrs = nbrs.Skip(1).ToArray();
+
+            foreach (CompositeSnailFishNumber snailFishNumber in nbrs)
+            {
+                nbr = nbr.ReverseAdd(snailFishNumber);
+
+                while (nbr.MustExplode() || nbr.MustSplit() != null)
+                {
+                    if (nbr.MustExplode())
+                    {
+                        nbr.Explode();
+                        continue;
+                    }
+
+                    if (nbr.MustSplit() != null)
+                        nbr.Split();
+                }
+            }
+
+            Assert.AreEqual(4116, nbr.GetMagnitude());
+        }
+
+        [TestMethod]
+        public void Exercice18_B()
+        {
+            IEnumerable<CompositeSnailFishNumber> nbrs = InputGetter.GetInputAndTreat(Session, "2021/day/18/input", i => i
+                .Split("\n")
+                .Where(i => !string.IsNullOrEmpty(i))
+                .Select(SnailFishHomework.FromString))
+                .ToArray();
+            long max = 0;
+
+            int x = 0;
+
+            while (x < nbrs.Count())
+            {
+                int y = 0;
+
+                while (y < nbrs.Count())
+                {
+                    if (x != y)
+                    {
+                        CompositeSnailFishNumber a = nbrs.ElementAt(x).Clone();
+                        CompositeSnailFishNumber b = nbrs.ElementAt(y).Clone();
+
+                        a = a.ReverseAdd(b);
+
+                        while (a.MustExplode() || a.MustSplit() != null)
+                        {
+                            if (a.MustExplode())
+                            {
+                                a.Explode();
+                                continue;
+                            }
+
+                            if (a.MustSplit() != null)
+                                a.Split();
+                        }
+
+                        long current = a.GetMagnitude();
+
+                        if (max < current)
+                            max = current;
+                    }
+
+                    ++y;
+                }
+
+                ++x;
+            }
+
+            
+            Assert.AreEqual(4638, max);
+        }
     }
 }

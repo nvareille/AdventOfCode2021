@@ -18,6 +18,11 @@ namespace AdventOfCode2021.Extensions
             return (str1.Count(str2.Contains));
         }
 
+        public static int ToInt(this string str)
+        {
+            return (int.Parse(str));
+        }
+
         public static long FromBinaryLong(this string str)
         {
             return (Convert.ToInt64(str, 2));
